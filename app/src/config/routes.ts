@@ -31,11 +31,11 @@
         name: "edit-model"
     },
     {
-        route: "/models",
+        route: "/projects/:projectId/models",
         moduleId: "models/models",
         title: "Models",
         elementId: "models",
-        name: "models"
+        name: "project-models"
     },
     {
         route: "/models/template-generators/:modelId/list",
