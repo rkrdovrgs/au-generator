@@ -1,5 +1,5 @@
 import * as express from "express";
-import { connection } from "../db/connection";
+import { connection } from "au-base/server/db/connection";
 import * as fs from "fs";
 import * as path from "path";
 
