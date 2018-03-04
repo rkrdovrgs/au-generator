@@ -1,0 +1,19 @@
+{
+    "projectTitle": "POS System",
+    "auth0ClientId": "DtLgkU2qGUObM69oYSFi1nqT29n8A5cW",
+    "auth0Domain": "rkrdovrgs.auth0.com",
+    "theme": {
+        "logo": "/dist/content/images/logo.png",
+        "favicon": "/dist/content/images/favicon.ico",
+        "splashImage": "/dist/content/images/splash.png",
+        "splashAnimation": "pulse"
+    },
+    "server": {
+        "port": 3000,
+        "seed": {
+            "path": "./server/src/db/data.json",
+            "force": false
+        },
+        "dbConnectionString": "mongodb://localhost:27017/possystem"
+    }
+}

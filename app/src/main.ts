@@ -3,7 +3,7 @@ import "bootstrap";
 import { Aurelia } from "aurelia-framework";
 import environment from "environment";
 //import reducers from "appState/reducers";
-import authConfig from "config/auth";
+import * as config from "au-config";
 import { AuthLockConfig } from "au-base/app/auth-lock/base-config";
 
 //Configure Bluebird Promises.
@@ -25,7 +25,7 @@ export function configure(aurelia: Aurelia) {
         .plugin("aurelia-dialog")
         //.plugin("shared/redux-base/config", (createStore: IReduxStoreCreator) => createStore(reducers, environment.debug))
         .plugin("au-base/app/auth-lock/auth0", (baseConfig: AuthLockConfig) => {
-            baseConfig.configure(authConfig);
+            baseConfig.configure(config as IAppConfiguration);
         })
         .plugin("aurelia-computed", {
             enableLogging: environment.debug
