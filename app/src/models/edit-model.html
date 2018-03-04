@@ -5,42 +5,61 @@
 
     <hr/>
     <button click.trigger="addProperty()">Add Property</button>
-    <div repeat.for="p of model.properties">
-        <input type="text" placeholder="Name" value.bind="p.name" />
-        <label>Is Array?
+    <div class="row">
+        <div class="col col-md-3">Name</div>
+        <div class="col col-md-2">Is Array?</div>
+        <div class="col col-md-2">Type</div>
+        <div class="col col-md-2">Control Type</div>
+        <div class="col col-md-2">Display Type</div>
+        <div class="col col-md-1"></div>
+    </div>
+    <div class="row" repeat.for="p of model.properties">
+        <div class="col col-md-3">
+            <input type="text" placeholder="Name" value.bind="p.name" />
+        </div>
+        <div class="col col-md-2">
             <input type="checkbox" checked.bind="p.isArray" />
-        </label>
-        <select value.bind="p.type">
-            <optgroup label="Base types">
-                <option>any</option>
-                <option>string</option>
+        </div>
+        <div class="col col-md-2">
+            <select value.bind="p.type">
+                <optgroup label="Base types">
+                    <option>any</option>
+                    <option>string</option>
+                    <option>number</option>
+                    <option>boolean</option>
+                    <option>Date</option>
+                    <option>IFile</option>
+                </optgroup>
+                <optgroup label="Complex types">
+                    <option repeat.for="m of complexTypes">I${m.name}</option>
+                </optgroup>
+            </select>
+        </div>
+        <div class="col col-md-2">
+            <select value.bind="p.controlType">
+                <option>text</option>
+                <option>checkbox</option>
+                <option>select</option>
+                <option>date</option>
+                <option>datetime</option>
+                <option>email</option>
+                <option>textarea</option>
+                <option>file</option>
                 <option>number</option>
-                <option>boolean</option>
-                <option>Date</option>
-            </optgroup>
-            <optgroup label="Complex types">
-                <option repeat.for="m of complexTypes">I${m.name}</option>
-            </optgroup>
-        </select>
-        <select value.bind="p.controlType">
-            <option>text</option>
-            <option>checkbox</option>
-            <option>select</option>
-            <option>date</option>
-            <option>datetime</option>
-            <option>email</option>
-            <option>textarea</option>
-            <option>file</option>
-            <option>number</option>
-            <option>radio-button</option>
-        </select>
-        <select value.bind="p.displayType">
-            <option>text</option>
-            <option>checkbox</option>
-            <option>radio-button</option>
-            <option>image</option>
-        </select>
-        <button click.trigger="removeProperty($index)">[x]</button>
+                <option>radio-button</option>
+            </select>
+        </div>
+        <div class="col col-md-2">
+            <select value.bind="p.displayType">
+                <option>text</option>
+                <option>checkbox</option>
+                <option>radio-button</option>
+                <option>image</option>
+            </select>
+        </div>
+        <div class="col col-md-1">
+            <button click.trigger="removeProperty($index)">[x]</button>
+        </div>
     </div>
     <hr/>
     <div>

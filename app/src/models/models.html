@@ -4,14 +4,14 @@
     <div>
         <div repeat.for="m of models" class="row">
             <div class="col col-md-2">
-                <a route-href="route:edit-model;params.bind:{modelId: m._id}">${m.name}</a>
+                <a route-href="route:project-edit-model;params.bind:{modelId: m._id, projectId: projectId}">${m.name}</a>
             </div>
             <div class="col col-md-10 commands">
-                <a route-href="route:template-generators-list;params.bind:{modelId: m._id}">List</a>
+                <a route-href="route:template-generators-list;params.bind:{modelId: m._id, projectId: projectId}">List</a>
                 <a>Add/Edit</a>
             </div>
         </div>
     </div>
     <hr/>
-    <a route-href="route:add-model">Add Model</a>
+    <a route-href="route:project-add-model;params.bind:{projectId:projectId}">Add Model</a>
 </template>

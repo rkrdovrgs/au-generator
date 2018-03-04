@@ -10,6 +10,7 @@ interface IProperty {
 
 interface IModel {
     _id: string;
+    projectId: string;
     name: string;
     properties: IProperty[];
 }

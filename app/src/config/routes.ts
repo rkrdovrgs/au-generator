@@ -19,16 +19,16 @@
         name: "project-details"
     },
     {
-        route: "/models/add",
+        route: "/projects/:projectId/models/add",
         moduleId: "models/edit-model",
         title: "Add Model",
-        name: "add-model"
+        name: "project-add-model"
     },
     {
-        route: "/models/edit/:modelId",
+        route: "/projects/:projectId/models/edit/:modelId",
         moduleId: "models/edit-model",
         title: "Edit Model",
-        name: "edit-model"
+        name: "project-edit-model"
     },
     {
         route: "/projects/:projectId/models",
