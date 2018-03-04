@@ -1,0 +1,20 @@
+{
+    "exclude": [
+        "app",
+        "aurelia_project",
+        "node_modules"
+    ],
+    "compilerOptions": {
+        "outDir": "dist",
+        "preserveConstEnums": false,
+        "forceConsistentCasingInFileNames": true,
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "typeRoots": [
+            "../node_modules/@types",
+            "../node_modules/au-base/custom_typings"
+        ]
+    }
+}
