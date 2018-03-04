@@ -20,7 +20,7 @@ export function configure(aurelia: Aurelia) {
     aurelia.use
         .standardConfiguration()
         //globalize features
-        //.feature("resources")
+        .feature("au-base/app/resources")
         //load plugins
         .plugin("aurelia-dialog")
         //.plugin("shared/redux-base/config", (createStore: IReduxStoreCreator) => createStore(reducers, environment.debug))
