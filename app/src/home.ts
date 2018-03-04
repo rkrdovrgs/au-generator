@@ -1,4 +1,4 @@
-﻿import { DbService } from "au-base/app/dataservices/db-service";
+﻿import { DbService } from "dataservices/db-service";
 import { inject } from "aurelia-framework";
 
 @inject(DbService)
