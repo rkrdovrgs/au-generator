@@ -1,0 +1,16 @@
+<template>
+    <require from="projects/project-details.css"></require>
+    <h2>Project Details</h2>
+    <div class="form-group">
+        <label>Name: </label>
+        <input type="text" value.bind="project.name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Path</label>
+        <input type="text" value.bind="project.path" class="form-control" />
+    </div>
+    <div class="action-ribbon">
+        <button class="btn btn-primary">Save</button>
+        <button class="btn btn-default" if.bind="project._id" route-click="route:project-models;params:{projectId:p._id}">Models</button>
+    </div>
+</template>

@@ -1,0 +1,17 @@
+<template>
+    <require from="models/models.css"></require>
+    <h2>Models</h2>
+    <div>
+        <div repeat.for="m of models" class="row">
+            <div class="col col-md-2">
+                <a route-href="route:edit-model;params.bind:{modelId: m._id}">${m.name}</a>
+            </div>
+            <div class="col col-md-10 commands">
+                <a route-href="route:template-generators-list;params.bind:{modelId: m._id}">List</a>
+                <a>Add/Edit</a>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <a route-href="route:add-model">Add Model</a>
+</template>
