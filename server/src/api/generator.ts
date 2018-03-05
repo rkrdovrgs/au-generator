@@ -121,6 +121,45 @@ const templateGenerators = [
     },
 
     (model: ITemplateModel) => {
+        let content = fs.readFileSync(path.resolve("./templates/details/details.ts"), "utf8");
+        content = replaceModelName(content, model);
+
+        return {
+            name: `${model.nameKebab}-details`,
+            extension: "ts",
+            content
+        }
+    },
+
+    (model: ITemplateModel) => {
+        let content = fs.readFileSync(path.resolve("./templates/details/details.html"), "utf8");
+        content = replaceModelName(content, model);
+
+        let properties = model.properties.map(p => {
+            return `<div class="form-group"><label>${p.name}: </label><input type="text" value.bind="${model.nameCamelCase}.${p.name}" class="form-control" /></div>`;
+        }).join("\n    ");
+        content = content.replace(/__properties__/g, properties);
+
+        return {
+            name: `${model.nameKebab}-details`,
+            extension: "html",
+            content
+        }
+    },
+
+    (model: ITemplateModel) => {
+
+        let content = fs.readFileSync(path.resolve("./templates/details/details.less"), "utf8");
+        content = replaceModelName(content, model);
+
+        return {
+            name: `${model.nameKebab}-details`,
+            extension: "less",
+            content
+        }
+    },
+
+    (model: ITemplateModel) => {
         let content = fs.readFileSync(path.resolve("./templates/list/list.md"), "utf8");
         content = replaceModelName(content, model);
 

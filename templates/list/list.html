@@ -2,7 +2,7 @@
     <require from="__modelNamePluralCamelCase__/__modelNamePluralCamelCase__.css"></require>
     <h1>__modelNamePluralCapitalize__</h1>
     <hr/>
-    <a route-href="route:__modelNameCamelCase__-add">Add __modelNameCapitalize__</a>
+    <a route-href="route:__modelNameKebab__-details-add">Add __modelNameCapitalize__</a>
     <hr/>
     <div class="row">
         __propertyHeaders__
@@ -10,7 +10,7 @@
     <div class="row" repeat.for="m of __modelNamePluralCamelCase__">
         __propertyRows__
         <div class="col col-xs-12">
-            <a route-href="route:__modelNameCamelCase__-edit;params.bind:{__modelNameCamelCase__Id: m._id}">Edit</a>
+            <a route-href="route:__modelNameKebab__-details-edit;params.bind:{__modelNameCamelCase__Id: m._id}">Edit</a>
             &nbsp;|&nbsp;
             <a click.delegate="remove(m._id, $index)">Delete</a>
         </div>
