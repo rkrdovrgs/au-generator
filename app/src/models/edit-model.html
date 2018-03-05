@@ -10,9 +10,11 @@
     <div class="row">
         <div class="col col-md-3">Name</div>
         <div class="col col-md-2">Is Array?</div>
-        <div class="col col-md-2">Type</div>
+        <div class="col col-md-2">Data Type</div>
+        <!--
         <div class="col col-md-2">Control Type</div>
         <div class="col col-md-2">Display Type</div>
+        -->
         <div class="col col-md-1"></div>
     </div>
     <div class="row" repeat.for="p of model.properties">
@@ -23,7 +25,7 @@
             <input type="checkbox" checked.bind="p.isArray" />
         </div>
         <div class="col col-md-2">
-            <select value.bind="p.type">
+            <select value.bind="p.dataType">
                 <optgroup label="Base types">
                     <option>any</option>
                     <option>string</option>
@@ -68,7 +70,7 @@
     <hr/>
     <div>
         <pre>I${model.name} {
-    <div repeat.for="p of model.properties">${p.name}: ${p.type}${p.isArray ? '[]' : ''};</div>
+    <div repeat.for="p of model.properties">${p.name}: ${p.dataType || 'any'}${p.isArray ? '[]' : ''};</div>
 }
     </pre>
     </div>

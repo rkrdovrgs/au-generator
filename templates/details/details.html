@@ -1,30 +1,7 @@
 <template>
-    <require from="__modelNamePluralCamelCase__/__modelNamePluralCamelCase__.css"></require>
-    <h1>__modelNamePluralCapitalize__</h1>
-    <hr/>
-    <a route-href="route:__modelNameCamelCase__-add">Add __modelNameCapitalize__</a>
-    <hr/>
-    <div class="row">
-        __propertyHeaders__
-    </div>
-    <div class="row" repeat.for="m of __modelNamePluralCamelCase__">
-        __propertyRows__
-        <div class="col col-xs-12">
-            <a route-href="route:__modelNameCamelCase__-edit;params.bind:{__modelNameCamelCase__Id: m._id}">Edit</a>
-            &nbsp;|&nbsp;
-            <a click.delegate="remove(m._id, $index)">Delete</a>
-        </div>
-    </div>
-</template>
-
-<template>
     <require from="__modelNamePluralCamelCase__/__modelNameCamelCase__-details.css"></require>
     <h2>__modelNameCapitalize__ Details</h2>
     __properties__
-    <div class="form-group">
-        <label>Name: </label>
-        <input type="text" value.bind="__modelNameCamelCase__.name" class="form-control" />
-    </div>
     <div class="action-ribbon">
         <button class="btn btn-primary" click.delegate="save()">Save</button>
         <button class="btn btn-default" route-click="route:__modelNamePluralKebab__">Cancel</button>

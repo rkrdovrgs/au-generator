@@ -1,7 +1,7 @@
 #__modelNamePluralCapitalize__
 
 ##MongoJsCollection (app/src/dataservices/db-service.ts)
-`__modelNamePluralCamelCase__: MongoJsCollection<I__modelNameCapitalize__> = null;`
+__modelNamePluralCamelCase__: MongoJsCollection<I__modelNameCapitalize__> = null;
 
 ##Routes
 ```

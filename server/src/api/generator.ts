@@ -168,6 +168,27 @@ const templateGenerators = [
             extension: "md",
             content
         }
+    },
+
+    (model: ITemplateModel) => {
+        let content = `interface I${model.nameCapitalize} {`;
+
+
+        content += `\n    `;
+        content += `_id: string;`;
+
+        model.properties.forEach(p => {
+            content += `\n    `;
+            content += `${p.name}: ${p.dataType || "any"}${p.isArray ? "[]" : ""};`;
+        });
+
+        content += `\n}`;
+
+        return {
+            name: model.namePluralKebab,
+            extension: "contracts.d.ts",
+            content
+        }
     }
 ];
 
