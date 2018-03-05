@@ -30,12 +30,13 @@
     "typeRoots": [
       "../node_modules/@types",
       "../node_modules/au-base/custom_typings",
-      "../node_modules/au-base/app/custom_typings"
+      "../node_modules/au-base/app/custom_typings",
+      "../custom_typings"
     ]
   },
   "include": [
     "./**/*.ts",
-    "../custom_typings/app/*.d.ts"
+    "../custom_typings/models/*.d.ts"
   ],
   "exclude": [
     "aurelia_project"

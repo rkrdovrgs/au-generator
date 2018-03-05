@@ -14,6 +14,8 @@ export class Models {
     }
 
     generate(modelId: string, templateType: string) {
-        setTimeout(() => window.location.href = `/api/projects/${this.projectId}/models/${modelId}/template-generators/${templateType}`);
+        ["ts", "html", "less", "md"].forEach((extension, i) => {
+            setTimeout(() => window.location.href = `/api/projects/${this.projectId}/models/${modelId}/template-generators/${templateType}.${extension}`, i * 1000);
+        });
     }
 }

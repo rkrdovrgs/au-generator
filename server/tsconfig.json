@@ -5,6 +5,10 @@
         "node_modules",
         "templates"
     ],
+    "include": [
+        "./src/**/*.ts",
+        "../custom_typings/models/*.d.ts"
+    ],
     "compilerOptions": {
         "outDir": "dist",
         "preserveConstEnums": false,
@@ -15,7 +19,8 @@
         ],
         "typeRoots": [
             "../node_modules/@types",
-            "../node_modules/au-base/custom_typings"
+            "../node_modules/au-base/custom_typings",
+            "../custom_typings"
         ]
     }
 }
