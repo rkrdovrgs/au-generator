@@ -9,6 +9,7 @@
   },
   "main": "server/dist/index.js",
   "scripts": {
+    "preinstall": "del-cli node_modules",
     "start:dev": "npm run clean && concurrently \"npm run app:w\" \"npm run server:w\" \"npm run lint:w\" ",
     "clean": "del-cli app/dist && del-cli app/src/main.js && del-cli server/dist",
     "lint": "au lint",
