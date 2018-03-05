@@ -28,6 +28,7 @@
   "license": "ISC",
   "homepage": "https://github.com/rkrdovrgs/au-skeleton#readme",
   "dependencies": {
+    "archiver": "^2.1.1",
     "au-base": "^1.20.0"
   }
 }

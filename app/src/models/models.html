@@ -7,7 +7,7 @@
                 <a route-href="route:project-edit-model;params.bind:{modelId: m._id, projectId: projectId}">${m.name}</a>
             </div>
             <div class="col col-md-10 commands">
-                <button class="btn btn-link" click.delegate="generate(m._id, 'list')">List</button>
+                <a target="_blank" href="/api/projects/${projectId}/models/${m._id}/templates">Generate</button>
             </div>
         </div>
     </div>

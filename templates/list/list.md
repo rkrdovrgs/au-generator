@@ -1,5 +1,9 @@
 #__modelNamePluralCapitalize__
-##Route
+
+##MongoJsCollection (app/src/dataservices/db-service.ts)
+`__modelNamePluralCamelCase__: MongoJsCollection<I__modelNameCapitalize__> = null;`
+
+##Routes
 ```
 {
     route: "/__modelNamePluralCamelCase__",
@@ -9,6 +13,3 @@
     elementId: "__modelNamePluralCamelCase__"
 }
 ```
-
-##MongoJsCollection (app/src/dataservices/db-service.ts)
-`__modelNamePluralCamelCase__: MongoJsCollection<I__modelNameCapitalize__> = null;`
