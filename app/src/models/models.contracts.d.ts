@@ -12,5 +12,6 @@ interface IModel {
     _id: string;
     projectId: string;
     name: string;
+    namePlural: string;
     properties: IProperty[];
 }

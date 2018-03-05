@@ -12,4 +12,8 @@ export class Models {
         this.projectId = projectId;
         this.models = await this.db.models.find({ projectId });
     }
+
+    generate(modelId: string, templateType: string) {
+        setTimeout(() => window.location.href = `/api/projects/${this.projectId}/models/${modelId}/template-generators/${templateType}`);
+    }
 }

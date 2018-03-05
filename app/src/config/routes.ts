@@ -36,11 +36,5 @@
         title: "Models",
         elementId: "models",
         name: "project-models"
-    },
-    {
-        route: "/models/template-generators/:modelId/list",
-        moduleId: "template-generators/list/list",
-        title: "Generate List",
-        name: "template-generators-list"
-    },
+    }
 ] as Array<IRoute>;
