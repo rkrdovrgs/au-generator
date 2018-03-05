@@ -9,7 +9,7 @@
   },
   "main": "server/dist/index.js",
   "scripts": {
-    "preinstall": "del-cli node_modules",
+    "preinstall": "npm i del-cli@1.1.0 && del-cli node_modules",
     "start:dev": "npm run clean && concurrently \"npm run app:w\" \"npm run server:w\" \"npm run lint:w\" ",
     "clean": "del-cli app/dist && del-cli app/src/main.js && del-cli server/dist",
     "lint": "au lint",
@@ -28,6 +28,6 @@
   "license": "ISC",
   "homepage": "https://github.com/rkrdovrgs/au-skeleton#readme",
   "dependencies": {
-    "au-base": "^1.19.0"
+    "au-base": "^1.20.0"
   }
 }
