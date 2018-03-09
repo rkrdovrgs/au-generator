@@ -11,7 +11,7 @@ export class Models {
     project: IProject;
     projectId: string;
     models: IModel[];
-    generating: boolean = false;
+    generating = {};
 
     constructor(private db: DbService, private api: ApiService, private storage: Storage) { }
 
@@ -34,7 +34,7 @@ export class Models {
 
         if (!path) return;
 
-        this.generating = true;
+        this.generating[model._id] = true;
 
         let accessToken = await this.api.post(`api/generator/auth/token`, { userId: this.storage.userId }).then(r => r.text()),
             dpx = new Dropbox({ accessToken });
@@ -44,6 +44,6 @@ export class Models {
             await dpx.filesUpload({ path: `/${this.project.name}/app/src/${path}/${t.name}.${t.extension}`, contents: t.content });
             await PromiseExtensions.wait(500);
         }
-        this.generating = false;
+        delete this.generating[model._id];
     }
 }

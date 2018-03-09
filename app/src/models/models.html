@@ -7,8 +7,8 @@
                 <a route-href="route:project-edit-model;params.bind:{modelId: m._id, projectId: projectId}">${m.name}</a>
             </div>
             <div class="col col-md-10 commands">
-                <button class="btn btn-primary" click.delegate="generate(m)" disabled.bind="generating">
-                    <i class="fa fa-spinner fa-pulse" if.bind="generating"></i>&nbsp; Generate
+                <button class="btn btn-primary" click.delegate="generate(m)" disabled.bind="generating[m._id]">
+                    <i class="fa fa-spinner fa-pulse" if.bind="generating[m._id]"></i>&nbsp; Generate
                 </button>
             </div>
         </div>
