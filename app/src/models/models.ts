@@ -44,6 +44,6 @@ export class Models {
             await dpx.filesUpload({ path: `/${this.project.name}/app/src/${path}/${t.name}.${t.extension}`, contents: t.content });
             await PromiseExtensions.wait(500);
         }
-        delete this.generating[model._id];
+        this.generating[model._id] = false;
     }
 }
