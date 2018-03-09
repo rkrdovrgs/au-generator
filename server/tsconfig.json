@@ -9,10 +9,6 @@
         "./src/**/*.ts",
         "../custom_typings/models/*.d.ts"
     ],
-    "include": [
-        "./src/**/*.ts",
-        "../custom_typings/models/*.d.ts"
-    ],
     "compilerOptions": {
         "outDir": "dist",
         "preserveConstEnums": false,
