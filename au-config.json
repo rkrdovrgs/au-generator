@@ -1,7 +1,7 @@
 {
     "projectTitle": "au-generator",
-    "auth0ClientId": "DtLgkU2qGUObM69oYSFi1nqT29n8A5cW",
     "auth0Domain": "rkrdovrgs.auth0.com",
+    "auth0ClientId": "4LzI6HsFAjqyc6C6a87Z9Bk94aaerD0S",
     "theme": {
         "logo": "/dist/content/images/logo.png",
         "favicon": "/dist/content/images/favicon.ico",
@@ -14,6 +14,8 @@
             "path": "./server/src/db/data.json",
             "force": false
         },
-        "dbConnectionString": "mongodb://localhost:27017/augenerator"
+        "dbConnectionString": "mongodb://localhost:27017/augenerator",
+        "auth0ApiClientId": "tv91qjjF80DJYup0IHeU0W0GYl4agNrA",
+        "auth0ApiClientSecret": "XD9uQtPnnFnKgv0jrzxsdGD8P6kh42CjR4UvUDJYBuBMtmpciyyzgwavspqgcp5J"
     }
 }

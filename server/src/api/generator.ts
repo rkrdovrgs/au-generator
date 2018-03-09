@@ -4,7 +4,8 @@ import * as fs from "fs";
 import * as path from "path";
 import * as _ from "lodash";
 import * as Archiver from "archiver";
-
+import * as  request from "request";
+import { config } from "au-base/server/config";
 
 interface ITemplateModel extends IModel {
     nameCamelCase: string;
@@ -13,12 +14,6 @@ interface ITemplateModel extends IModel {
     namePluralCamelCase: string;
     namePluralCapitalize: string;
     namePluralKebab: string;
-}
-
-interface ITemplate {
-    content: string;
-    name: string;
-    extension: string;
 }
 
 const router = express.Router();
@@ -52,11 +47,42 @@ function replaceModelName(content: string, model: ITemplateModel): string {
         .replace(/__modelNamePluralKebab__/g, model.namePluralKebab);
 }
 
+router.post("/api/generator/auth/token", async (req, res) => {
+    var options = {
+        method: 'POST',
+        url: 'https://rkrdovrgs.auth0.com/oauth/token',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+            "client_id": config.server.auth0ApiClientId,
+            "client_secret": config.server.auth0ApiClientSecret,
+            "audience": "https://rkrdovrgs.auth0.com/api/v2/",
+            "grant_type": "client_credentials"
+        })
+    };
+
+    request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+
+        var options = {
+            method: 'GET',
+            url: `https://rkrdovrgs.auth0.com/api/v2/users/${req.body.userId}`,
+            headers: { authorization: `Bearer ${JSON.parse(body).access_token}` }
+        };
+
+        request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+
+            res.send(JSON.parse(body).identities[0].access_token);
+        });
+    });
+});
+
 
 router.get("/api/projects/:projectId/models/:modelId/templates", async (req, res) => {
     let model = await getModel(req.params.modelId);
 
     // Tell the browser that this is a zip file.
+    /*
     res.writeHead(200, {
         "Content-Type": "application/zip",
         "Content-disposition": `attachment; filename=${model.namePluralKebab}.zip`
@@ -73,6 +99,9 @@ router.get("/api/projects/:projectId/models/:modelId/templates", async (req, res
     });
 
     zip.finalize();
+    */
+
+    res.json(templateGenerators.map(tg => tg(model)));
 });
 
 const templateGenerators = [

@@ -15,3 +15,9 @@ interface IModel {
     namePlural: string;
     properties: IProperty[];
 }
+
+interface ITemplate {
+    content: string;
+    name: string;
+    extension: string;
+}

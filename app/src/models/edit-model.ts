@@ -17,7 +17,7 @@ export class EditModel {
             projectId
         };
 
-        this.complexTypes = await this.db.models.find();
+        this.complexTypes = await this.db.models.find({ projectId });
     }
 
     addProperty() {

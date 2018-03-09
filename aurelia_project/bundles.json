@@ -14,9 +14,16 @@
           "name": "au-base/app",
           "path": "../../node_modules/au-base/app/dist",
           "main": "main",
+          "env": "dev"
+        },
+        {
+          "name": "au-base/app",
+          "path": "../../node_modules/au-base/app/dist",
+          "main": "main",
           "resources": [
             "**/*.{js,css,html}"
-          ]
+          ],
+          "env": "prod"
         }
       ]
     },
@@ -60,6 +67,10 @@
         "toastr",
         "shallowequal",
         "ms-signalr-client",
+        {
+          "name": "dropbox",
+          "path": "../../node_modules/dropbox/dist/Dropbox-sdk"
+        },
         {
           "name": "url-search-params",
           "path": "../../node_modules/url-search-params/build/url-search-params",
