@@ -1,6 +1,9 @@
 <template>
     <require from="models/models.css"></require>
+    <h1>${project.name}</h1>
+    <hr/>
     <h2>Models</h2>
+    <hr/>
     <div>
         <div repeat.for="m of models" class="row">
             <div class="col col-md-2">
@@ -8,7 +11,8 @@
             </div>
             <div class="col col-md-10 commands">
                 <button class="btn btn-primary" click.delegate="generate(m)" disabled.bind="generating[m._id]">
-                    <i class="fa fa-spinner fa-pulse" if.bind="generating[m._id]"></i>&nbsp; Generate
+                    <i class="fa fa-cog ${generating[m._id]|iif:'fa-spin'}"></i>
+                    &nbsp;Generate
                 </button>
             </div>
         </div>
