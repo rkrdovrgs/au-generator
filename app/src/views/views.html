@@ -1,0 +1,22 @@
+<template>
+    <require from="views/views.css"></require>
+    <h1>${project.name}</h1>
+    <hr/>
+    <h2>Views</h2>
+    <hr/>
+    <a route-href="route:view-details-add">Add View</a>
+    <hr/>
+    <div class="row">
+        <div class="col col-xs-1">path</div>
+        <div class="col col-xs-1">type</div>
+    </div>
+    <div class="row" repeat.for="m of views">
+        <div class="col col-xs-1">${m.path}</div>
+        <div class="col col-xs-1">${m.type}</div>
+        <div class="col col-xs-12">
+            <a route-href="route:view-details-edit;params.bind:{viewId: m._id}">Edit</a>
+            &nbsp;|&nbsp;
+            <a click.delegate="remove(m._id, $index)">Delete</a>
+        </div>
+    </div>
+</template>

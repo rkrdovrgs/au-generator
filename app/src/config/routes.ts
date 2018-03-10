@@ -36,5 +36,26 @@
         title: "Models",
         elementId: "models",
         name: "project-models"
+    },
+    {
+        route: "/projects/:projectId/views",
+        moduleId: "views/views",
+        title: "Views",
+        name: "project-views",
+        elementId: "project-views"
+    },
+    {
+        route: "/views/add",
+        moduleId: "views/view-details",
+        title: "Add View",
+        name: "view-details-add",
+        elementId: "view-details"
+    },
+    {
+        route: "/views/:viewId",
+        moduleId: "views/view-details",
+        title: "View Details",
+        name: "view-details-edit",
+        elementId: "view-details"
     }
 ] as Array<IRoute>;

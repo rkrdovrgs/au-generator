@@ -1,0 +1,10 @@
+<template>
+    <require from="views/view-details.css"></require>
+    <h2>View Details</h2>
+    <div class="form-group"><label>path: </label><input type="text" value.bind="view.path" class="form-control" /></div>
+    <div class="form-group"><label>type: </label><input type="text" value.bind="view.type" class="form-control" /></div>
+    <div class="action-ribbon">
+        <button class="btn btn-primary" click.delegate="save()">Save</button>
+        <button class="btn btn-default" route-click="route:views">Cancel</button>
+    </div>
+</template>

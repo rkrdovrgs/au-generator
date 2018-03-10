@@ -1,12 +1,15 @@
 <template>
     <require from="projects/project-details.css"></require>
-    <h2>Project Details</h2>
+    <h2>Project</h2>
+    <hr/>
     <div class="form-group">
         <label>Name: </label>
         <input type="text" value.bind="project.name" class="form-control" />
     </div>
+    <hr/>
     <div class="action-ribbon">
         <button class="btn btn-primary" click.delegate="saveProject()">Save</button>
         <button class="btn btn-default" if.bind="project._id" route-click="route:project-models;params.bind:{projectId:project._id}">Models</button>
+        <button class="btn btn-default" if.bind="project._id" route-click="route:project-views;params.bind:{projectId:project._id}">Views</button>
     </div>
 </template>
