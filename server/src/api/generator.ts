@@ -8,6 +8,7 @@ import * as  request from "request";
 import { config } from "au-base/server/config";
 
 interface ITemplateModel extends IModel {
+    path: string;
     nameCamelCase: string;
     nameCapitalize: string;
     nameKebab: string;
@@ -19,12 +20,13 @@ interface ITemplateModel extends IModel {
 const router = express.Router();
 const db = connection("models");
 
-function getModel(modelId): Promise<ITemplateModel> {
+function getModel(modelId, path): Promise<ITemplateModel> {
     return new Promise((res, rej) => {
         db.models.findOne(
             { _id: ObjectId(modelId) },
             (err, result: ITemplateModel) => {
                 if (err) rej(err);
+                result.path = path;
                 result.namePlural = result.namePlural || `${result.name}s`;
                 result.nameCamelCase = _.lowerFirst(result.name);
                 result.nameCapitalize = _.upperFirst(result.name);
@@ -39,6 +41,7 @@ function getModel(modelId): Promise<ITemplateModel> {
 
 function replaceModelName(content: string, model: ITemplateModel): string {
     return content
+        .replace(/__path__/g, model.path)
         .replace(/__modelNameCamelCase__/g, model.nameCamelCase)
         .replace(/__modelNameCapitalize__/g, model.nameCapitalize)
         .replace(/__modelNameKebab__/g, model.nameKebab)
@@ -79,7 +82,7 @@ router.post("/api/generator/auth/token", async (req, res) => {
 
 
 router.get("/api/projects/:projectId/models/:modelId/templates", async (req, res) => {
-    let model = await getModel(req.params.modelId);
+    let model = await getModel(req.params.modelId, req.query.path);
 
     // Tell the browser that this is a zip file.
     /*

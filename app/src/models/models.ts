@@ -5,6 +5,7 @@ import { Dropbox } from "dropbox";
 import { Storage } from "au-base/app/auth-lock/helpers/storage";
 import PromiseExtensions from "au-base/app/helpers/promise-extensions";
 import * as alertify from "alertifyjs";
+import * as _ from "lodash";
 
 @inject(DbService, ApiService, Storage)
 export class Models {
@@ -23,7 +24,7 @@ export class Models {
 
     async generate(model: IModel) {
         let path = await new Promise<string>((res, rej) =>
-            alertify.prompt("What would be the view path (e.g. admin/products)?", null, <any>((result, value) => (result.cancel && rej()) || res(value)))
+            alertify.prompt("What would be the view path (e.g. admin/products)?", _.kebabCase(model.namePlural), ((result, value) => (result.cancel && rej()) || res(value)))
         );
 
         if (!path) return;
@@ -39,7 +40,7 @@ export class Models {
         let accessToken = await this.api.post(`api/generator/auth/token`, { userId: this.storage.userId }).then(r => r.text()),
             dpx = new Dropbox({ accessToken });
 
-        let templates = await this.api.get<ITemplate[]>(`/api/projects/${this.projectId}/models/${model._id}/templates`);
+        let templates = await this.api.get<ITemplate[]>(`/api/projects/${this.projectId}/models/${model._id}/templates`, { path });
         for (let t of templates) {
             await dpx.filesUpload({ path: `/${this.project.name}/app/src/${path}/${t.name}.${t.extension}`, contents: t.content });
             await PromiseExtensions.wait(500);
