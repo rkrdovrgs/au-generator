@@ -4,6 +4,7 @@ import { Router } from "aurelia-router";
 
 @inject(DbService, Router)
 export class EditModel {
+    project: IProject;
     projectId: string;
     model: IModel;
     complexTypes: IModel[];
@@ -12,6 +13,7 @@ export class EditModel {
 
     async activate({ modelId, projectId }) {
         this.projectId = projectId;
+        this.project = await this.db.projects.findById(projectId);
         this.model = await this.db.models.findById(modelId) || <IModel>{
             properties: [],
             projectId

@@ -1,13 +1,13 @@
 <template>
     <require from="models/models.css"></require>
-    <h1>${project.name}</h1>
+    <a route-href="project-details;params.bind:{projectId}">Project Details - ${project.name}</a>
     <hr/>
     <h2>Models</h2>
     <hr/>
     <div>
         <div repeat.for="m of models" class="row">
             <div class="col col-md-2">
-                <a route-href="route:project-edit-model;params.bind:{modelId: m._id, projectId: projectId}">${m.name}</a>
+                <a route-href="route:project-edit-model;params.bind:{modelId: m._id, projectId}">${m.name}</a>
             </div>
             <div class="col col-md-10 commands">
                 <button class="btn btn-primary" click.delegate="generate(m)" disabled.bind="generating[m._id]">
@@ -18,5 +18,5 @@
         </div>
     </div>
     <hr/>
-    <a route-href="route:project-add-model;params.bind:{projectId:projectId}">Add Model</a>
+    <a route-href="route:project-add-model;params.bind:{projectId}">Add Model</a>
 </template>

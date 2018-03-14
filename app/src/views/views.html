@@ -7,14 +7,14 @@
     <a route-href="route:view-details-add">Add View</a>
     <hr/>
     <div class="row">
-        <div class="col col-xs-1">path</div>
-        <div class="col col-xs-1">type</div>
+        <div class="col col-xs-4">Name</div>
+        <div class="col col-xs-8">Path</div>
     </div>
-    <div class="row" repeat.for="m of views">
-        <div class="col col-xs-1">${m.path}</div>
-        <div class="col col-xs-1">${m.type}</div>
+    <div class="row" repeat.for="v of existingViews">
+        <div class="col col-xs-4">${v.name}</div>
+        <div class="col col-xs-8">${v.path_display}</div>
         <div class="col col-xs-12">
-            <a route-href="route:view-details-edit;params.bind:{viewId: m._id}">Edit</a>
+            <a route-href="route:view-details-edit;params.bind:{viewId: v.id}">Edit</a>
             &nbsp;|&nbsp;
             <a click.delegate="remove(m._id, $index)">Delete</a>
         </div>

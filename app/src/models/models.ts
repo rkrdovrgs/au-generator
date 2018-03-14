@@ -22,7 +22,6 @@ export class Models {
     }
 
     async generate(model: IModel) {
-        let dropbox = await DropboxService();
         let path = await new Promise<string>((res, rej) =>
             alertify.prompt("What would be the view path (e.g. admin/products)?", _.kebabCase(model.namePlural), ((result, value) => (result.cancel && rej()) || res(value)))
         );
@@ -39,7 +38,7 @@ export class Models {
 
         let templates = await this.api.get<ITemplate[]>(`/api/projects/${this.projectId}/models/${model._id}/templates`, { path });
         for (let t of templates) {
-            await dropbox.filesUpload({ path: `/${this.project.name}/app/src/${path}/${t.name}.${t.extension}`, contents: t.content });
+            await DropboxService(dropbox => dropbox.filesUpload({ path: `/${this.project.name}/app/src/${path}/${t.name}.${t.extension}`, contents: t.content }));
             await PromiseExtensions.wait(500);
         }
         this.generating[model._id] = false;
