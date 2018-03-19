@@ -22,13 +22,15 @@
         route: "/projects/:projectId/models/add",
         moduleId: "models/edit-model",
         title: "Add Model",
-        name: "project-add-model"
+        name: "project-add-model",
+        elementId: "project-model-details"
     },
     {
         route: "/projects/:projectId/models/edit/:modelId",
         moduleId: "models/edit-model",
         title: "Edit Model",
-        name: "project-edit-model"
+        name: "project-edit-model",
+        elementId: "project-model-details"
     },
     {
         route: "/projects/:projectId/models",

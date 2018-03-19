@@ -1,10 +1,12 @@
 <template>
+    <require from="models/edit-model.css"></require>
     <a route-href="project-models;params.bind:{projectId}">Models - ${project.name}</a>
     <h2>Edit Model</h2>
     Name:
-    <input type="" placeholder="Name (e.g.: ReportingEntity)" value.bind="model.name" />
+    <input type="" placeholder="Name (e.g.: ReportingEntity)" value.bind="model.name" change.bind="setModelName" />
     <br/> Collection name (plural):
-    <input type="" placeholder="Collection name (e.g.: ReportingEntities" value.bind="model.namePlural" />
+    <input type="" placeholder="Collection name (e.g.: ReportingEntities" value.bind="model.namePlural" change.bind="setModelName()"
+    />
 
     <hr/>
     <div class="row">
@@ -39,13 +41,14 @@
                 </optgroup>
             </select>
         </div>
-        <!--
+
         <div class="col col-md-2">
             <select value.bind="p.controlType">
                 <option>text</option>
                 <option>checkbox</option>
                 <option>select</option>
                 <option>date</option>
+                <option>time</option>
                 <option>datetime</option>
                 <option>email</option>
                 <option>textarea</option>
@@ -54,6 +57,7 @@
                 <option>radio-button</option>
             </select>
         </div>
+        <!--
         <div class="col col-md-2">
             <select value.bind="p.displayType">
                 <option>text</option>
@@ -70,4 +74,20 @@
     <button click.trigger="addProperty()">Add Property</button>
     <hr/>
     <button click.trigger="save()">Save</button>
+    <hr/>
+    <h3>Generate Views</h3>
+    <hr/>
+    <select value.bind="selectedTemplate">
+        <option value="">- Select -</option>
+        <option value="contracts">contracts.d.ts</option>
+        <option value="details">details.ts</option>
+        <option value="list">list.ts</option>
+        <option value="routes">routes.ts</option>
+        <option value="dataservice">dataservice.ts</option>
+    </select>
+    <button click.trigger="generate()">Generate</button>
+    <hr/>
+    <section if.bind="selectedTemplate">
+        <compose view.bind="generators[selectedTemplate].view" ref="templateRef"></compose>
+    </section>
 </template>

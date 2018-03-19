@@ -1,0 +1,26 @@
+@import (reference) "./app/content/less/base.less";
+
+#project-model-details {
+    .template-settings {
+        opacity: 0.7;
+        float: right;
+
+        &:before{
+            font: normal normal normal 14px/1 FontAwesome;
+            content: "\f013";
+            margin-right: 10px;
+        }
+       
+        &:hover {
+            opacity: 1;
+        }
+
+        select {
+            margin:0 15px 0 5px;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+        
+    }
+}

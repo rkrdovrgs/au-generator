@@ -9,12 +9,6 @@ import { config } from "au-base/server/config";
 
 interface ITemplateModel extends IModel {
     path: string;
-    nameCamelCase: string;
-    nameCapitalize: string;
-    nameKebab: string;
-    namePluralCamelCase: string;
-    namePluralCapitalize: string;
-    namePluralKebab: string;
 }
 
 const router = express.Router();

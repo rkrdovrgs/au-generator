@@ -14,6 +14,13 @@ interface IModel {
     name: string;
     namePlural: string;
     properties: IProperty[];
+
+    nameCamelCase: string;
+    nameCapitalize: string;
+    nameKebab: string;
+    namePluralCamelCase: string;
+    namePluralCapitalize: string;
+    namePluralKebab: string;
 }
 
 interface ITemplate {

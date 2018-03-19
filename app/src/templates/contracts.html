@@ -1,0 +1,7 @@
+<template>
+    <pre>interface I${model.nameCapitalize} {
+    
+    <template repeat.for="p of model.properties">${p.name}: ${p.dataType || "any"}${p.isArray ? "[]" : ""};
+    </template>
+}</pre>
+</template>
