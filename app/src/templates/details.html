@@ -1,63 +1,97 @@
 <template>
-    <!--<require from="__path__/__modelNameCamelCase__-details.css"></require>-->
-    <h2>${model.nameCapitalize} Details</h2>
-    <div class="form-group" repeat.for="p of model.properties">
-        <label>${p.name}: </label>
-        <input if.bind="!p.controlType || p.controlType==='text'" type="text" data-t-attr-value-bind="${model.nameCamelCase}.${p.name}"
-            class="form-control" />
+    <section id="html-template">
+        <!--<require from="__path__/${model.nameCamelCase}-details.css"></require>-->
+        <h2>${model.nameCapitalize} Details</h2>
+        <div class="form-group" repeat.for="p of model.properties">
+            <label>${p.name}: </label>
+            <input if.bind="!p.controlType || p.controlType==='text'" type="text" data-t-attr-value-bind="${model.nameCamelCase}.${p.name}"
+                class="form-control" />
 
-        <input if.bind="p.controlType==='checkbox'" type="checkbox" data-t-attr-checked-bind="${model.nameCamelCase}.${p.name}" />
+            <input if.bind="p.controlType==='checkbox'" type="checkbox" data-t-attr-checked-bind="${model.nameCamelCase}.${p.name}" />
 
-        <input if.bind="p.controlType==='radio-button'" type="radio" data-t-attr-checked-bind="${model.nameCamelCase}.${p.name}"
-        />
+            <input if.bind="p.controlType==='radio-button'" type="radio" data-t-attr-checked-bind="${model.nameCamelCase}.${p.name}"
+            />
 
-        <input if.bind="p.controlType==='date'" type="date" data-t-attr-value-bind="${model.nameCamelCase}.${p.name}" class="form-control"
-        />
+            <input if.bind="p.controlType==='date'" type="date" data-t-attr-value-bind="${model.nameCamelCase}.${p.name}" class="form-control"
+            />
 
-        <input if.bind="p.controlType==='time'" type="time" data-t-attr-value-bind="${model.nameCamelCase}.${p.name}" class="form-control"
-        />
+            <input if.bind="p.controlType==='time'" type="time" data-t-attr-value-bind="${model.nameCamelCase}.${p.name}" class="form-control"
+            />
 
-        <input if.bind="p.controlType==='datetime'" type="datetime-local" data-t-attr-value-bind="${model.nameCamelCase}.${p.name}"
-            class="form-control" />
+            <input if.bind="p.controlType==='datetime'" type="datetime-local" data-t-attr-value-bind="${model.nameCamelCase}.${p.name}"
+                class="form-control" />
 
-        <input if.bind="p.controlType==='email'" type="email" data-t-attr-value-bind="${model.nameCamelCase}.${p.name}" class="form-control"
-        />
+            <input if.bind="p.controlType==='email'" type="email" data-t-attr-value-bind="${model.nameCamelCase}.${p.name}" class="form-control"
+            />
 
-        <input if.bind="p.controlType==='number'" type="number" data-t-attr-value-bind="${model.nameCamelCase}.${p.name}" class="form-control"
-        />
+            <input if.bind="p.controlType==='number'" type="number" data-t-attr-value-bind="${model.nameCamelCase}.${p.name}" class="form-control"
+            />
 
-        <input if.bind="p.controlType==='file'" type="file" data-t-attr-files-bind="${model.nameCamelCase}.${p.name}" class="form-control"
-            data-t-attr-eval="${p.isArray ? 'multiple' : ''}" />
+            <input if.bind="p.controlType==='file'" type="file" data-t-attr-files-bind="${model.nameCamelCase}.${p.name}" class="form-control"
+                data-t-attr-eval="${p.isArray ? 'multiple' : ''}" />
 
-        <textarea if.bind="p.controlType==='textarea'" data-t-attr-value-bind="${model.nameCamelCase}.${p.name}" class="form-control"></textarea>
+            <textarea if.bind="p.controlType==='textarea'" data-t-attr-value-bind="${model.nameCamelCase}.${p.name}" class="form-control"></textarea>
 
-        <template if.bind="p.controlType==='select'">
-            <select data-t-attr-value-bind="${model.nameCamelCase}.${p.name}" class="form-control" data-t-attr-eval="${p.isArray ? 'multiple' : ''}">
-                <option>- Select - </option>
-                <option data-t-attr-repeat-for="opt of ${p.datasource.model.namePluralCamelCase}" data-t-attr-model-bind="opt.${p.datasourceValue}">${'${opt.' + p.datasourceText + '}'}</option>
-            </select>
-            <section class="template-settings">
-                Datasource:
-                <select value.bind="p.datasource" matcher.bind="datasourceMatcher">
-                    <option>- Datasource - </option>
-                    <option repeat.for="m of complexTypes" model.bind="{index:$index, model: m}">${m.namePluralCamelCase}</option>
+            <template if.bind="datasourcedControlTypes.indexOf(p.controlType) >= 0">
+                <select data-t-attr-value-bind="${model.nameCamelCase}.${p.name}" class="form-control" data-t-attr-eval="${p.isArray ? 'multiple' : ''}">
+                    <option>- Select - </option>
+                    <option data-t-attr-repeat-for="opt of ${p.datasource.model.namePluralCamelCase}" data-t-attr-model-bind="opt.${p.datasourceValue}">${'${opt.' + p.datasourceText + '}'}</option>
                 </select>
-                Value:
-                <select value.bind="p.datasourceValue">
-                    <option>- Value - </option>
-                    <option>_id</option>
-                    <option repeat.for="p of complexTypes[p.datasource.index].properties">${p.name}</option>
-                </select>
-                Text:
-                <select value.bind="p.datasourceText">
-                    <option>- Text - </option>
-                    <option repeat.for="p of complexTypes[p.datasource.index].properties">${p.name}</option>
-                </select>
-            </section>
+                <section class="template-settings">
+                    Datasource:
+                    <select change.trigger="datasourceChanged()" value.bind="p.datasource" matcher.bind="datasourceMatcher">
+                        <option>- Datasource - </option>
+                        <option repeat.for="m of complexTypes" model.bind="{index:$index, model: m}">${m.namePluralCamelCase}</option>
+                    </select>
+                    Value:
+                    <select value.bind="p.datasourceValue">
+                        <option>- Value - </option>
+                        <option>_id</option>
+                        <option repeat.for="p of complexTypes[p.datasource.index].properties">${p.name}</option>
+                    </select>
+                    Text:
+                    <select value.bind="p.datasourceText">
+                        <option>- Text - </option>
+                        <option repeat.for="p of complexTypes[p.datasource.index].properties">${p.name}</option>
+                    </select>
+                </section>
+            </template>
+        </div>
+        <div class="action-ribbon">
+            <button class="btn btn-primary" click.delegate="save()">Save</button>
+            <button class="btn btn-default" data-t-attr-route-click="route:${model.namePluralKebab}">Cancel</button>
+        </div>
+    </section>
+
+    <hr/>
+
+    <section id="ts-template">
+        <pre>import { inject } from "aurelia-framework";
+import { DbService } from "dataservices/db-service";
+import { Router } from "aurelia-router";
+import { FileService } from "au-base/app/dataservices/file-service";
+
+@inject(DbService, FileService, Router)
+export class ${model.nameCapitalize}Details {
+    ${model.nameCamelCase}: I${model.nameCapitalize};
+
+    <template repeat.for="p of model.properties|filter:propertiesWithDatasource()">${p.datasource.model.namePluralCamelCase}: I${p.datasource.model.nameCapitalize}[] = [];
+    </template>
+
+    constructor(private db: DbService, private fileService: FileService, private router: Router) { }
+
+    async activate({ ${model.nameCamelCase}Id }) {
+        this.${model.nameCamelCase} = await this.db.${model.namePluralCamelCase}.findById(${model.nameCamelCase}Id) || &lt;I${model.nameCapitalize}&gt;{};
+
+        //load datasources
+        <template repeat.for="p of model.properties|filter:propertiesWithDatasource()">this.${p.datasource.model.namePluralCamelCase} = await this.db.${p.datasource.model.namePluralCamelCase}.find();
         </template>
-    </div>
-    <div class="action-ribbon">
-        <button class="btn btn-primary" click.delegate="save()">Save</button>
-        <button class="btn btn-default" data-t-attr-route-click="route:${model.namePluralKebab}">Cancel</button>
-    </div>
+    }
+
+    async save() {
+        await this.db.${model.namePluralCamelCase}.upsert(this.${model.nameCamelCase});
+        this.router.navigateToRoute("${model.namePluralKebab}");
+    }
+}</pre>
+    </section>
 </template>

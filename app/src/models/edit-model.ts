@@ -2,15 +2,18 @@ import { inject } from "aurelia-framework";
 import { DbService } from "dataservices/db-service";
 import { Router } from "aurelia-router";
 import * as _ from "lodash";
+import { json } from "express";
 
-@inject(DbService, Router)
+@inject(DbService, Router, Element)
 export class EditModel implements IModelDetailsViewModel {
     project: IProject;
     projectId: string;
     model: IModel;
+    modelChangedTimeoutId: NodeJS.Timer;
     complexTypes: IModel[];
     selectedTemplate: string = "details";
     templateRef: Element;
+    datasourcedControlTypes = ["select"];
     generators = {
         "contracts.d.ts": {
             view: "templates/contracts.d.ts.html",
@@ -26,30 +29,38 @@ export class EditModel implements IModelDetailsViewModel {
         "details": {
             view: "templates/details.html",
             generate: () => {
-                let $templateRef = $(this.templateRef).clone();
-                $templateRef.find("[au-target-id]")
+                let $htmlTemplateRef = $(this.templateRef).find("#html-template").clone();
+                $htmlTemplateRef.find("[au-target-id]")
                     .removeClass("au-target")
                     .removeAttr("au-target-id");
 
-                $templateRef.find(".template-settings").remove();
+                $htmlTemplateRef.find(".template-settings").remove();
+                let htmlTemplate = $htmlTemplateRef.html()
+                    .replace(/data-t-attr-value-bind/g, "value.bind")
+                    .replace(/data-t-attr-files-bind/g, "files.bind")
+                    .replace(/data-t-attr-cehcked-bind/g, "checked.bind")
+                    .replace(/data-t-attr-repeat-for/g, "repeat.for")
+                    .replace(/data-t-attr-model-bind/g, "model.bind")
+                    .replace(/data-t-attr-eval="([a-z\-]*)"/ig, "$1")
+                    .replace(/data-t-attr-/g, "")
+                    .replace(/class=""/g, "")
+                    .replace(/\s?<!--anchor-->\s?/g, "");
+
+                let $tsTemplateRef = $(this.templateRef).find("#ts-template pre").clone();
+
+                let tsTemplate = $tsTemplateRef.html()
+                    .replace(/<!--.*-->/g, "")
+                    .replace(/\s{4}\n/g, "");
 
                 return [
-                    $templateRef.html()
-                        .replace(/data-t-attr-value-bind/g, "value.bind")
-                        .replace(/data-t-attr-files-bind/g, "files.bind")
-                        .replace(/data-t-attr-cehcked-bind/g, "checked.bind")
-                        .replace(/data-t-attr-repeat-for/g, "repeat.for")
-                        .replace(/data-t-attr-model-bind/g, "model.bind")
-                        .replace(/data-t-attr-eval="([a-z\-]*)"/ig, "$1")
-                        .replace(/data-t-attr-/g, "")
-                        .replace(/class=""/g, "")
-                        .replace(/\s?<!--anchor-->\s?/g, "")
+                    htmlTemplate,
+                    tsTemplate
                 ];
             }
         }
     };
 
-    constructor(private db: DbService, private router: Router) { }
+    constructor(private db: DbService, private router: Router, private element: Element) { }
 
     async activate({ modelId, projectId }) {
         this.projectId = projectId;
@@ -60,8 +71,12 @@ export class EditModel implements IModelDetailsViewModel {
                 projectId
             };
         this.setModelName();
-
         this.complexTypes = await this.db.models.find({ projectId });
+    }
+
+    attached() {
+        $(this.element).find("#selected-template").bind("DOMSubtreeModified", this.modelChanged.bind(this));
+        $(this.element).on("change", "input,select", this.modelChanged.bind(this));
     }
 
     setModelName() {
@@ -82,6 +97,14 @@ export class EditModel implements IModelDetailsViewModel {
         this.model.properties.splice(index, 1);
     }
 
+    modelChanged() {
+        if (this.modelChangedTimeoutId) return;
+        this.modelChangedTimeoutId = setTimeout(async () => {
+            await this.db.models.upsert(this.model);
+            this.modelChangedTimeoutId = null;
+        }, 1000);
+    }
+
     async save() {
         await this.db.models.upsert(this.model);
         //this.router.navigateToRoute("project-models", { projectId: this.projectId });
@@ -98,7 +121,11 @@ export class EditModel implements IModelDetailsViewModel {
             a.model._id === b.model._id;
     }
 
-    propertiesWithDatasource(prop: IProperty): boolean {
-        return !!prop.datasource && !!prop.datasource.model;
+    propertiesWithDatasource(): (prop: IProperty) => boolean {
+        return prop => this.datasourcedControlTypes.includes(prop.controlType) && !!prop.datasource && !!prop.datasource.model;
+    }
+
+    datasourceChanged() {
+        this.model.properties = [...this.model.properties];
     }
 }

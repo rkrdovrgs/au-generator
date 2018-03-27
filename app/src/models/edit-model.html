@@ -73,8 +73,6 @@
     </div>
     <button click.trigger="addProperty()">Add Property</button>
     <hr/>
-    <button click.trigger="save()">Save</button>
-    <hr/>
     <h3>Generate Views</h3>
     <hr/>
     <select value.bind="selectedTemplate">
@@ -87,7 +85,7 @@
     </select>
     <button click.trigger="generate()">Generate</button>
     <hr/>
-    <section if.bind="selectedTemplate">
+    <section id="selected-template" if.bind="selectedTemplate">
         <compose view.bind="generators[selectedTemplate].view" ref="templateRef"></compose>
     </section>
 </template>
