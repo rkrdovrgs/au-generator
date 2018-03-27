@@ -3,9 +3,9 @@
     <a route-href="project-models;params.bind:{projectId}">Models - ${project.name}</a>
     <h2>Edit Model</h2>
     Name:
-    <input type="" placeholder="Name (e.g.: ReportingEntity)" value.bind="model.name" change.bind="setModelName" />
+    <input type="" placeholder="Name (e.g.: ReportingEntity)" value.bind="model.name" change.delegate="setModelName()" />
     <br/> Collection name (plural):
-    <input type="" placeholder="Collection name (e.g.: ReportingEntities" value.bind="model.namePlural" change.bind="setModelName()"
+    <input type="" placeholder="Collection name (e.g.: ReportingEntities" value.bind="model.namePlural" change.delegate="setModelName()"
     />
 
     <hr/>
@@ -79,8 +79,8 @@
     <hr/>
     <select value.bind="selectedTemplate">
         <option value="">- Select -</option>
-        <option value="contracts">contracts.d.ts</option>
-        <option value="details">details.ts</option>
+        <option value="contracts.d.ts">contracts.d.ts</option>
+        <option value="details">details.{html,ts}</option>
         <option value="list">list.ts</option>
         <option value="routes">routes.ts</option>
         <option value="dataservice">dataservice.ts</option>

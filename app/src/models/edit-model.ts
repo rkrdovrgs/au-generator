@@ -12,8 +12,8 @@ export class EditModel implements IModelDetailsViewModel {
     selectedTemplate: string = "details";
     templateRef: Element;
     generators = {
-        contracts: {
-            view: "templates/contracts.html",
+        "contracts.d.ts": {
+            view: "templates/contracts.d.ts.html",
             generate: () => {
                 let $templateRef = $(this.templateRef).find("pre").clone();
                 return [
@@ -23,7 +23,7 @@ export class EditModel implements IModelDetailsViewModel {
                 ];
             }
         },
-        details: {
+        "details": {
             view: "templates/details.html",
             generate: () => {
                 let $templateRef = $(this.templateRef).clone();
@@ -95,7 +95,10 @@ export class EditModel implements IModelDetailsViewModel {
 
     datasourceMatcher(a = <any>{}, b = <any>{}) {
         return !!a.model && !!b.model &&
-
             a.model._id === b.model._id;
+    }
+
+    propertiesWithDatasource(prop: IProperty): boolean {
+        return !!prop.datasource && !!prop.datasource.model;
     }
 }

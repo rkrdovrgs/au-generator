@@ -4,7 +4,12 @@ interface IProperty {
     dataType: string;
     controlType: string;
     displayType: string;
-    dataSource: string;
+    datasource: {
+        index: number;
+        model: IModel;
+    };
+    datasourceText: string;
+    datasourceValue: string;
     isArray: boolean;
 }
 
