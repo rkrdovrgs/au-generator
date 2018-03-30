@@ -26,13 +26,13 @@ export class Models {
             alertify.prompt("What would be the view path (e.g. admin/products)?", _.kebabCase(model.namePlural), ((result, value) => (result.cancel && rej()) || res(value)))
         );
 
-        if (!path) return;
+        if (!path) { return; }
 
         path = path.replace(/\\/, "/");
         path.startsWith("/") && (path = path.substring(1));
         path.endsWith("/") && (path = path.substring(0, path.length - 1));
 
-        if (!path) return;
+        if (!path) { return; }
 
         this.generating[model._id] = true;
 

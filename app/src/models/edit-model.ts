@@ -2,7 +2,10 @@ import { inject } from "aurelia-framework";
 import { DbService } from "dataservices/db-service";
 import { Router } from "aurelia-router";
 import * as _ from "lodash";
-import { json } from "express";
+import { DropboxService } from "dataservices/dropbox-service";
+import PromiseExtensions from "au-base/app/helpers/promise-extensions";
+import * as alertify from "alertifyjs";
+
 
 @inject(DbService, Router, Element)
 export class EditModel implements IModelDetailsViewModel {
@@ -14,6 +17,7 @@ export class EditModel implements IModelDetailsViewModel {
     selectedTemplate: string = "details";
     templateRef: Element;
     datasourcedControlTypes = ["select"];
+    generating: boolean;
     generators = {
         "contracts.d.ts": {
             view: "templates/contracts.d.ts.html",
@@ -98,7 +102,7 @@ export class EditModel implements IModelDetailsViewModel {
     }
 
     modelChanged() {
-        if (this.modelChangedTimeoutId) return;
+        if (this.modelChangedTimeoutId) { return; }
         this.modelChangedTimeoutId = setTimeout(async () => {
             await this.db.models.upsert(this.model);
             this.modelChangedTimeoutId = null;
@@ -110,10 +114,29 @@ export class EditModel implements IModelDetailsViewModel {
         //this.router.navigateToRoute("project-models", { projectId: this.projectId });
     }
 
-    generate() {
+    async generate() {
         let generator = this.generators[this.selectedTemplate],
             templates = generator.generate();
-        templates.forEach(t => console.log(t));
+
+        let path = await new Promise<string>((res, rej) =>
+            alertify.prompt("What would be the view path (e.g. admin/products)?", _.kebabCase(this.model.namePlural), ((result, value) => (result.cancel && rej()) || res(value)))
+        );
+
+        if (!path) { return; }
+
+        path = path.replace(/\\/, "/");
+        path.startsWith("/") && (path = path.substring(1));
+        path.endsWith("/") && (path = path.substring(0, path.length - 1));
+
+        if (!path) { return; }
+
+        this.generating = true;
+
+        for (let t of templates) {
+            await DropboxService(dropbox => dropbox.filesUpload({ path: `/${this.project.name}/app/src/${path}/${t.name}.${t.extension}`, contents: t.content }));
+            await PromiseExtensions.wait(500);
+        }
+        this.generating = false;
     }
 
     datasourceMatcher(a = <any>{}, b = <any>{}) {

@@ -20,6 +20,6 @@ export class Views {
 
     remove(viewId: string, index: number) {
         this.views.splice(index, 1);
-        this.db.views.removeById(viewId)
+        this.db.views.removeById(viewId);
     }
 }

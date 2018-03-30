@@ -1,6 +1,6 @@
 import { Dropbox } from "dropbox";
 import { ApiService } from "au-base/app/api-service/api";
-import { inject, Container } from "aurelia-framework";
+import { Container } from "aurelia-framework";
 import { Storage } from "au-base/app/auth-lock/helpers/storage";
 
 let accessToken: string;
@@ -18,8 +18,9 @@ export async function DropboxService(...args) {
     let dropbox = new Dropbox({ accessToken }),
         callback = args[0];
 
-    if (callback)
+    if (callback) {
         return callback(dropbox);
-    else
+    } else {
         return dropbox;
+    }
 }
