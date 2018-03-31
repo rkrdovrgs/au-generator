@@ -23,11 +23,11 @@ export class EditModel implements IModelDetailsViewModel {
             view: "templates/contracts.d.ts.html",
             generate: () => {
                 let $templateRef = $(this.templateRef).find("pre").clone();
-                return [
-                    $templateRef.html()
+                return {
+                    [`${this.model.nameKebab}.contracts.d.ts`]: $templateRef.html()
                         .replace(/<!--.*-->/g, "")
                         .replace(/\s{4}\n/g, "")
-                ];
+                };
             }
         },
         "details": {
@@ -53,13 +53,15 @@ export class EditModel implements IModelDetailsViewModel {
                 let $tsTemplateRef = $(this.templateRef).find("#ts-template pre").clone();
 
                 let tsTemplate = $tsTemplateRef.html()
+                    .replace(/&lt;/g, "<")
+                    .replace(/&gt;/g, ">")
                     .replace(/<!--.*-->/g, "")
                     .replace(/\s{4}\n/g, "");
 
-                return [
-                    htmlTemplate,
-                    tsTemplate
-                ];
+                return {
+                    [`${this.model.nameKebab}-details.html`]: htmlTemplate,
+                    [`${this.model.nameKebab}-details.ts`]: tsTemplate
+                };
             }
         }
     };
@@ -116,7 +118,7 @@ export class EditModel implements IModelDetailsViewModel {
 
     async generate() {
         let generator = this.generators[this.selectedTemplate],
-            templates = generator.generate();
+            templates: { [filename: string]: string } = generator.generate();
 
         let path = await new Promise<string>((res, rej) =>
             alertify.prompt("What would be the view path (e.g. admin/products)?", _.kebabCase(this.model.namePlural), ((result, value) => (result.cancel && rej()) || res(value)))
@@ -132,8 +134,8 @@ export class EditModel implements IModelDetailsViewModel {
 
         this.generating = true;
 
-        for (let t of templates) {
-            await DropboxService(dropbox => dropbox.filesUpload({ path: `/${this.project.name}/app/src/${path}/${t.name}.${t.extension}`, contents: t.content }));
+        for (let t in templates) {
+            await DropboxService(dropbox => dropbox.filesUpload({ path: `/${this.project.name}/app/src/${path}/${t}`, contents: templates[t] }));
             await PromiseExtensions.wait(500);
         }
         this.generating = false;

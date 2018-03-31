@@ -83,7 +83,7 @@
         <option value="routes">routes.ts</option>
         <option value="dataservice">dataservice.ts</option>
     </select>
-    <button click.trigger="generate()">
+    <button click.trigger="generate()" disabled.bind="generating">
         <i class="fa fa-cog ${generating|iif:'fa-spin'}"></i>
         &nbsp;Generate
     </button>

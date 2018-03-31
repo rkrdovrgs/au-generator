@@ -74,18 +74,16 @@ import { FileService } from "au-base/app/dataservices/file-service";
 @inject(DbService, FileService, Router)
 export class ${model.nameCapitalize}Details {
     ${model.nameCamelCase}: I${model.nameCapitalize};
-
-    <template repeat.for="p of model.properties|filter:propertiesWithDatasource()">${p.datasource.model.namePluralCamelCase}: I${p.datasource.model.nameCapitalize}[] = [];
-    </template>
+    <template repeat.for="p of model.properties|filter:propertiesWithDatasource()">
+    ${p.datasource.model.namePluralCamelCase}: I${p.datasource.model.nameCapitalize}[] = [];</template>
 
     constructor(private db: DbService, private fileService: FileService, private router: Router) { }
 
     async activate({ ${model.nameCamelCase}Id }) {
         this.${model.nameCamelCase} = await this.db.${model.namePluralCamelCase}.findById(${model.nameCamelCase}Id) || &lt;I${model.nameCapitalize}&gt;{};
 
-        //load datasources
-        <template repeat.for="p of model.properties|filter:propertiesWithDatasource()">this.${p.datasource.model.namePluralCamelCase} = await this.db.${p.datasource.model.namePluralCamelCase}.find();
-        </template>
+        <template repeat.for="p of model.properties|filter:propertiesWithDatasource()">
+        this.${p.datasource.model.namePluralCamelCase} = await this.db.${p.datasource.model.namePluralCamelCase}.find();</template>
     }
 
     async save() {
