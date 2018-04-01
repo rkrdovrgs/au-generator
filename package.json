@@ -29,7 +29,7 @@
   "homepage": "https://github.com/rkrdovrgs/au-skeleton#readme",
   "dependencies": {
     "archiver": "^2.1.1",
-    "au-base": "^1.22.0",
+    "au-base": "^1.24.0",
     "del-cli": "^1.1.0",
     "dropbox": "^4.0.1"
   }
