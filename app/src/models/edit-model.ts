@@ -135,8 +135,10 @@ export class EditModel implements IModelDetailsViewModel {
         this.generating = true;
 
         for (let t in templates) {
-            await DropboxService(dropbox => dropbox.filesUpload({ path: `/${this.project.name}/app/src/${path}/${t}`, contents: templates[t] }));
-            await PromiseExtensions.wait(500);
+            if (templates.hasOwnProperty(t)) {
+                await DropboxService(dropbox => dropbox.filesUpload({ path: `/${this.project.name}/app/src/${path}/${t}`, contents: templates[t] }));
+                await PromiseExtensions.wait(500);
+            }
         }
         this.generating = false;
     }

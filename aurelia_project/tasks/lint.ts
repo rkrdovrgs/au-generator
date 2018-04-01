@@ -3,7 +3,7 @@ import * as tslint from "gulp-tslint";
 import { CLIOptions } from "aurelia-cli";
 import { watch } from "./watch";
 
-const sources = ["**/*.ts", "!node_modules/**/*.ts", "!templates/**/*"];
+const sources = ["**/*.ts", "!node_modules/**/*", "!templates/**/*"];
 
 export function lint() {
     return gulp.src(sources)
