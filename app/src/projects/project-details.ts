@@ -50,7 +50,7 @@ export class ProjectDetails {
 
         #Heroku
         - Create a new app at: https://dashboard.heroku.com/new-app
-            Strongly recommend to use the same name as the git repo name
+            Strongly recommended to use the same name as the git repo name
         - Go to newly created app
         
         - Go to the tab "Resources"
