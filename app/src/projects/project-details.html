@@ -9,7 +9,20 @@
     </div>
     <hr/>
     <div class="action-ribbon">
-        <button class="btn btn-primary" click.delegate="saveProject()">Save</button>
-        <button class="btn btn-default" if.bind="project._id" route-click="route:project-models;params.bind:{projectId:project._id}">Models</button>
+        <button class="btn btn-primary" click.delegate="saveProject()" disabled.bind="isSaving">
+            <i class="fa fa-cog ${isSaving|iif:'fa-spin'}"></i>
+            &nbsp;Save
+        </button>
+        <button class="btn btn-default" if.bind="project._id" route-click="route:project-models;params.bind:{projectId:project._id}"
+            disabled.bind="isSaving">
+            Models
+        </button>
     </div>
+    <hr/>
+    <template if.bind="project._id">
+        <h3>Instructions:</h3>
+        <pre>
+        ${instructions}
+        </pre>
+    </template>
 </template>
