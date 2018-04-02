@@ -19,7 +19,8 @@ export class ProjectDetails {
         this.instructions = `
         #Git & Github
         - Create a new repository at: https://github.com/new
-
+            Strongly recommended to use the same as the project name: ${this.project.name}
+        
         - Run the following commands:
 
             1. git init
@@ -50,7 +51,7 @@ export class ProjectDetails {
 
         #Heroku
         - Create a new app at: https://dashboard.heroku.com/new-app
-            Strongly recommended to use the same name as the git repo name
+            Strongly recommended to use the same as the project name: ${this.project.name}
         - Go to newly created app
         
         - Go to the tab "Resources"
