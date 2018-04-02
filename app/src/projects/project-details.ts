@@ -17,6 +17,13 @@ export class ProjectDetails {
 
     setInstructions() {
         this.instructions = `
+        #Required Software
+        - Dropbox: https://www.dropbox.com/downloading
+        - NodeJs: https://nodejs.org/en/download/current/
+        - Git: https://git-scm.com/downloads
+        - MongoDB Community Server: https://www.mongodb.com/download-center#community
+        - Visual Studio Code: https://code.visualstudio.com/download
+
         #Git & Github
         - Create a new repository at: https://github.com/new
             Strongly recommended to use the same as the project name: ${this.project.name}
@@ -42,7 +49,7 @@ export class ProjectDetails {
             Click "Selective Sync"
             Deselect "Apps/au-generator/${this.project.name}/node_modules"
 
-        #Running the app
+        #Running the App
         - Install the project dependencies by running:
             npm install
 
@@ -63,7 +70,7 @@ export class ProjectDetails {
         - Search for the repo name: ${this.project.name}
         - Click "Connect"
 
-        #Making changes to your app
+        #Making Changes to Your App
         - To start the app locally run
             npm run start:dev
         
