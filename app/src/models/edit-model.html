@@ -79,14 +79,16 @@
         <option value="">- Select -</option>
         <option value="contracts.d.ts">contracts.d.ts</option>
         <option value="details">details.{html,ts}</option>
-        <option value="list">list.ts</option>
-        <option value="routes">routes.ts</option>
-        <option value="dataservice">dataservice.ts</option>
+        <option value="list">list.{html,ts}</option>
+        <option value="routes.ts">routes.ts</option>
+        <option value="dataservice.ts">dataservice.ts</option>
     </select>
     <button click.trigger="generate()" disabled.bind="generating">
         <i class="fa fa-cog ${generating|iif:'fa-spin'}"></i>
         &nbsp;Generate
     </button>
+    <hr/> Path (e.g. admin/products):
+    <input type="text" value.bind="path" />
     <hr/>
     <section id="selected-template" if.bind="selectedTemplate">
         <compose view.bind="generators[selectedTemplate].view" ref="templateRef"></compose>

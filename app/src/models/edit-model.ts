@@ -11,10 +11,11 @@ import * as alertify from "alertifyjs";
 export class EditModel implements IModelDetailsViewModel {
     project: IProject;
     projectId: string;
+    path: string;
     model: IModel;
     modelChangedTimeoutId: NodeJS.Timer;
     complexTypes: IModel[];
-    selectedTemplate: string = "details";
+    selectedTemplate: string = "routes.ts";
     templateRef: Element;
     datasourcedControlTypes = ["select"];
     generating: boolean;
@@ -33,38 +34,75 @@ export class EditModel implements IModelDetailsViewModel {
         "details": {
             view: "templates/details.html",
             generate: () => {
-                let $htmlTemplateRef = $(this.templateRef).find("#html-template").clone();
-                $htmlTemplateRef.find("[au-target-id]")
-                    .removeClass("au-target")
-                    .removeAttr("au-target-id");
+                let $htmlTemplateRef = $(this.templateRef).find("#html-template").clone(),
+                    htmlTemplate = this.parseHtmlTemplate($htmlTemplateRef);
 
-                $htmlTemplateRef.find(".template-settings").remove();
-                let htmlTemplate = $htmlTemplateRef.html()
-                    .replace(/data-t-attr-value-bind/g, "value.bind")
-                    .replace(/data-t-attr-files-bind/g, "files.bind")
-                    .replace(/data-t-attr-cehcked-bind/g, "checked.bind")
-                    .replace(/data-t-attr-repeat-for/g, "repeat.for")
-                    .replace(/data-t-attr-model-bind/g, "model.bind")
-                    .replace(/data-t-attr-eval="([a-z\-]*)"/ig, "$1")
-                    .replace(/data-t-attr-/g, "")
-                    .replace(/class=""/g, "")
-                    .replace(/\s?<!--anchor-->\s?/g, "");
-
-                let $tsTemplateRef = $(this.templateRef).find("#ts-template pre").clone();
-
-                let tsTemplate = $tsTemplateRef.html()
-                    .replace(/&lt;/g, "<")
-                    .replace(/&gt;/g, ">")
-                    .replace(/<!--.*-->/g, "")
-                    .replace(/\s{4}\n/g, "");
+                let $tsTemplateRef = $(this.templateRef).find("#ts-template pre").clone(),
+                    tsTemplate = this.parseTsTemplate($tsTemplateRef);
 
                 return {
                     [`${this.model.nameKebab}-details.html`]: htmlTemplate,
                     [`${this.model.nameKebab}-details.ts`]: tsTemplate
                 };
             }
+        },
+        "list": {
+            view: "templates/list.html",
+            generate: () => {
+                let $htmlTemplateRef = $(this.templateRef).find("#html-template").clone(),
+                    htmlTemplate = this.parseHtmlTemplate($htmlTemplateRef);
+
+                let $tsTemplateRef = $(this.templateRef).find("#ts-template pre").clone(),
+                    tsTemplate = this.parseTsTemplate($tsTemplateRef);
+
+                return {
+                    [`${this.model.namePluralKebab}.html`]: htmlTemplate,
+                    [`${this.model.namePluralKebab}.ts`]: tsTemplate
+                };
+            }
+        },
+        "routes.ts": {
+            view: "templates/routes.ts.html",
+            generate: () => {
+                let $tsTemplateRef = $(this.templateRef).find("#ts-template pre").clone(),
+                    tsTemplate = this.parseTsTemplate($tsTemplateRef);
+
+                return {
+                    [`${this.model.namePluralKebab}.ts`]: tsTemplate
+                }
+            }
         }
     };
+
+    parseHtmlTemplate($htmlTemplateRef: JQuery) {
+        $htmlTemplateRef.find("[au-target-id]")
+            .removeClass("au-target")
+            .removeAttr("au-target-id");
+
+        $htmlTemplateRef.find(".template-settings").remove();
+        let htmlTemplate = $htmlTemplateRef.html()
+            .replace(/data-t-attr-value-bind/g, "value.bind")
+            .replace(/data-t-attr-files-bind/g, "files.bind")
+            .replace(/data-t-attr-cehcked-bind/g, "checked.bind")
+            .replace(/data-t-attr-repeat-for/g, "repeat.for")
+            .replace(/data-t-attr-model-bind/g, "model.bind")
+            .replace(/data-t-attr-eval="([a-z\-]*)"/ig, "$1")
+            .replace(/data-t-attr-/g, "")
+            .replace(/class=""/g, "")
+            .replace(/\s?<!--anchor-->\s?/g, "");
+
+        return htmlTemplate;
+    }
+
+    parseTsTemplate($tsTemplateRef: JQuery) {
+        let tsTemplate = $tsTemplateRef.html()
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">")
+            .replace(/<!--.*-->/g, "")
+            .replace(/\s{4}\n/g, "");
+
+        return tsTemplate;
+    }
 
     constructor(private db: DbService, private router: Router, private element: Element) { }
 
@@ -120,18 +158,26 @@ export class EditModel implements IModelDetailsViewModel {
         let generator = this.generators[this.selectedTemplate],
             templates: { [filename: string]: string } = generator.generate();
 
-        let path = await new Promise<string>((res, rej) =>
-            alertify.prompt("What would be the view path (e.g. admin/products)?", _.kebabCase(this.model.namePlural), ((result, value) => (result.cancel && rej()) || res(value)))
-        );
+        /*
+        _.each(templates, t => {
+            console.log(t);
+        });
+        return;
+        */
+        if (!this.path) {
+            this.path = await new Promise<string>((res, rej) =>
+                alertify.prompt("What would be the view path (e.g. admin/products)?", _.kebabCase(this.model.namePlural), ((result, value) => (result.cancel && rej()) || res(value)))
+            );
 
-        if (!path) { return; }
+            if (!path) { return; }
 
-        path = path.replace(/\\/, "/");
-        path.startsWith("/") && (path = path.substring(1));
-        path.endsWith("/") && (path = path.substring(0, path.length - 1));
+            path = path.replace(/\\/, "/");
+            path.startsWith("/") && (path = path.substring(1));
+            path.endsWith("/") && (path = path.substring(0, path.length - 1));
 
-        if (!path) { return; }
+            if (!path) { return; }
 
+        }
         this.generating = true;
 
         for (let t in templates) {

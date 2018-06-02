@@ -1,0 +1,43 @@
+<template>
+    <section id="html-template">
+        <!--<require from="__path__/${model.namePluralCamelCase}.css"></require>-->
+        <h1>${model.namePluralCapitalize}</h1>
+        <hr/>
+        <a data-t-attr-route-href="route:${model.nameKebab}-details-add">Add ${model.nameCapitalize}</a>
+        <hr/>
+        <div class="row">
+            <div class="col col-xs-1" repeat.for="p of model.properties">${p.name}</div>
+        </div>
+        <div class="row" data-t-attr-repeat-for="m of ${model.namePluralCamelCase}">
+            <div class="col col-xs-1" repeat.for="p of model.properties">${'${m.' + p.name + '}'}</div>
+            <div class="col col-xs-12">
+                <a data-t-attr-route-href="route:${model.nameKebab}-details-edit;params.bind:{${model.nameCamelCase}Id: m._id}">Edit</a>
+                &nbsp;|&nbsp;
+                <a click.delegate="remove(m._id, $index)">Delete</a>
+            </div>
+        </div>
+    </section>
+
+    <hr/>
+
+    <section id="ts-template">
+        <pre>import { inject } from "aurelia-framework";
+import { DbService } from "dataservices/db-service";
+
+@inject(DbService)
+export class ${model.namePluralCapitalize} {
+    ${model.namePluralCamelCase}: I${model.nameCapitalize}[] = [];
+
+    constructor(private db: DbService) { }
+
+    async activate() {
+        this.${model.namePluralCamelCase} = await this.db.${model.namePluralCamelCase}.find();
+    }
+
+    remove(${model.nameCamelCase}Id: string, index: number) {
+        this.${model.namePluralCamelCase}.splice(index, 1);
+        this.db.${model.namePluralCamelCase}.removeById(${model.nameCamelCase}Id)
+    }
+}</pre>
+    </section>
+</template>
